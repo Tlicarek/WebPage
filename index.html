@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neon Horizon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="stars"></div>
+  <header class="site-header">
+    <div class="logo">Neon Horizon</div>
+    <nav class="nav">
+      <a href="#vision">Vision</a>
+      <a href="#features">Systems</a>
+      <a href="#timeline">Timeline</a>
+      <a href="#contact">Signal</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="vision">
+      <div class="hero-content">
+        <h1>Designing the Next Epoch</h1>
+        <p>
+          Step into a future where human intuition and quantum computation merge.
+          Neon Horizon architects immersive ecosystems that reimagine possibility.
+        </p>
+        <div class="cta-group">
+          <button class="btn primary" data-emit="pulse">Initiate Sequence</button>
+          <button class="btn secondary">Explore the Archive</button>
+        </div>
+      </div>
+      <div class="hero-orb" aria-hidden="true">
+        <span class="orb"></span>
+      </div>
+    </section>
+
+    <section class="cards" id="features">
+      <article class="card">
+        <h2>Quantum Lattice</h2>
+        <p>Adaptive systems co-created with predictive algorithms that evolve alongside your goals.</p>
+      </article>
+      <article class="card">
+        <h2>Neural Resonance</h2>
+        <p>Sensory feedback environments that calibrate emotional bandwidth with machine precision.</p>
+      </article>
+      <article class="card">
+        <h2>Holographic Flux</h2>
+        <p>Mixed-reality surfaces that bend light and data into luminous storytelling canvases.</p>
+      </article>
+    </section>
+
+    <section class="timeline" id="timeline">
+      <h2>Trajectory</h2>
+      <div class="timeline-grid">
+        <div class="time-node">
+          <span class="year">2026</span>
+          <p>Launch of the Aurora Field Lab to test ambient intelligence prototypes.</p>
+        </div>
+        <div class="time-node">
+          <span class="year">2028</span>
+          <p>Global deployment of adaptive neural fabrics across megacities.</p>
+        </div>
+        <div class="time-node">
+          <span class="year">2031</span>
+          <p>Interstellar communication uplink enables real-time galactic data exchange.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="signal" id="contact">
+      <h2>Transmit a Signal</h2>
+      <form class="signal-form">
+        <label>
+          Designation
+          <input type="text" name="name" placeholder="Cosmonaut" required />
+        </label>
+        <label>
+          Frequency
+          <input type="email" name="email" placeholder="cosmos@orbit.net" required />
+        </label>
+        <label class="message">
+          Message
+          <textarea name="message" rows="4" placeholder="Describe your mission..."></textarea>
+        </label>
+        <button type="submit" class="btn primary" data-emit="pulse">Send Transmission</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2044 Neon Horizon Collective. Charting luminous futures.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
