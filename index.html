@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="Neon Horizon Launchpad helps teams generate actionable sprint plans with AI-inspired playbooks, timeline guidance, and collaboration rituals."
+  />
+  <title>Neon Horizon Launchpad</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="stars" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="logo">Neon Horizon</div>
+    <nav class="nav">
+      <a href="#vision">Vision</a>
+      <a href="#benefits">Benefits</a>
+      <a href="#planner">Blueprint</a>
+      <a href="#resources">Resources</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="vision">
+      <div class="hero-content">
+        <h1>Launch Useful Futures</h1>
+        <p>
+          Transform vague ideas into actionable sprints. Neon Horizon Launchpad blends speculative design energy
+          with pragmatic planning so your team knows exactly what to do next.
+        </p>
+        <div class="cta-group">
+          <a class="btn primary" data-emit="pulse" href="#planner">Generate a Sprint Blueprint</a>
+          <a class="btn secondary" href="#resources">Browse Toolkits</a>
+        </div>
+        <dl class="metrics" aria-label="Launchpad impact metrics">
+          <div>
+            <dt>Average setup time</dt>
+            <dd>6 minutes</dd>
+          </div>
+          <div>
+            <dt>Sprint clarity score</dt>
+            <dd>92%</dd>
+          </div>
+          <div>
+            <dt>Teams activated</dt>
+            <dd>1,842</dd>
+          </div>
+        </dl>
+      </div>
+      <div class="hero-orb" aria-hidden="true">
+        <span class="orb"></span>
+      </div>
+    </section>
+
+    <section class="benefits" id="benefits">
+      <header class="section-heading">
+        <h2>Why teams use the Launchpad</h2>
+        <p>Modular cards highlight the core utility behind the neon aesthetic.</p>
+      </header>
+      <div class="card-grid">
+        <article class="card">
+          <h3>Clear sequencing</h3>
+          <p>Blueprint every sprint with ready-made phase prompts tuned for innovation, service delivery, research, or AI adoption.</p>
+        </article>
+        <article class="card">
+          <h3>Team rituals</h3>
+          <p>Auto-generate collaboration cadences, sync formats, and health metrics that scale with your crew size.</p>
+        </article>
+        <article class="card">
+          <h3>Constraint aware</h3>
+          <p>Capture blockers or compliance needs so each recommendation arrives contextualized and realistic.</p>
+        </article>
+        <article class="card">
+          <h3>Shareable output</h3>
+          <p>Copy a polished summary to paste into briefs, project hubs, or kickoff decks in seconds.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="planner" id="planner">
+      <div class="planner-intro">
+        <h2>Generate your sprint blueprint</h2>
+        <p>
+          Describe your initiative and we will synthesize a three-phase plan, weekly focus areas, and the rituals that keep
+          momentum high. Tune the controls for timeline, team size, and operating cadence, then export and share.
+        </p>
+      </div>
+      <div class="planner-grid">
+        <form class="planner-form" autocomplete="off">
+          <label>
+            Initiative name
+            <input type="text" name="initiative" placeholder="Ex: Atlas onboarding revamp" />
+          </label>
+          <label>
+            Strategic focus
+            <select name="focus" required>
+              <option value="innovation" selected>Innovation sprint</option>
+              <option value="experience">Customer experience upgrade</option>
+              <option value="ai">AI integration rollout</option>
+              <option value="research">Research &amp; discovery</option>
+            </select>
+          </label>
+          <label>
+            Timeline
+            <div class="range-group">
+              <input type="range" name="timeline" id="timeline" min="2" max="12" value="6" />
+              <output for="timeline" data-timeline-output>6 weeks</output>
+            </div>
+          </label>
+          <label>
+            Team members engaged
+            <input type="number" name="team" min="1" max="40" value="5" />
+          </label>
+          <label>
+            Operating cadence
+            <select name="cadence" required>
+              <option value="steady" selected>Steady (balanced pace)</option>
+              <option value="accelerated">Accelerated (fast experiments)</option>
+              <option value="moonshot">Moonshot (high intensity)</option>
+            </select>
+          </label>
+          <label class="full">
+            Constraints or priorities
+            <textarea name="constraint" rows="3" placeholder="Ex: Must respect new privacy guidelines"></textarea>
+          </label>
+          <button type="submit" class="btn primary" data-emit="pulse">Build blueprint</button>
+        </form>
+        <aside class="planner-output" aria-live="polite">
+          <div class="planner-results" data-planner-results>
+            <p class="placeholder">Provide your mission details to see the generated blueprint here.</p>
+          </div>
+          <button type="button" class="btn tertiary" data-copy-plan>
+            Copy summary
+          </button>
+          <p class="copy-feedback" data-copy-feedback role="status" aria-live="polite"></p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="insights" id="insights">
+      <h2>Blueprint anatomy</h2>
+      <div class="insight-grid">
+        <article>
+          <h3>Phase choreography</h3>
+          <p>Every plan splits into decode, build, and launch arcs with week ranges automatically mapped to your timeline.</p>
+        </article>
+        <article>
+          <h3>Signal-based rituals</h3>
+          <p>Cadence settings generate recurring syncs, retros, and async rituals that guard focus and detect risk early.</p>
+        </article>
+        <article>
+          <h3>Outcome metrics</h3>
+          <p>Focus-specific KPIs reinforce what success looks like whether you are shipping features or validating research.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="resources" id="resources">
+      <header class="section-heading">
+        <h2>Toolkits for the next step</h2>
+        <p>Downloadable frameworks and playlists to keep the sprint humming.</p>
+      </header>
+      <div class="resource-grid">
+        <article class="resource-card">
+          <h3>Kickoff narrative template</h3>
+          <p>Slides and speaking cues to align stakeholders in the first 30 minutes.</p>
+          <a class="resource-link" href="#">Download deck</a>
+        </article>
+        <article class="resource-card">
+          <h3>Decision journal</h3>
+          <p>Capture experiments, insights, and trade-offs in a living log.</p>
+          <a class="resource-link" href="#">Open journal</a>
+        </article>
+        <article class="resource-card">
+          <h3>Retro question bank</h3>
+          <p>35 prompts tailored to innovation, ops, and research teams.</p>
+          <a class="resource-link" href="#">View prompts</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="faq" id="faq">
+      <h2>Frequently asked</h2>
+      <dl>
+        <div>
+          <dt>Can I adapt the blueprint for longer programs?</dt>
+          <dd>Yes. Use the copy summary button and extend each phase with more milestones inside your project tracker.</dd>
+        </div>
+        <div>
+          <dt>How do the rituals change with team size?</dt>
+          <dd>The generator scales stand-ups and workshops to keep participation manageable, suggesting breakout crews for larger groups.</dd>
+        </div>
+        <div>
+          <dt>What if I have strict compliance needs?</dt>
+          <dd>Add them to the constraints field—those inputs surface as risk guards and checklist items in the output.</dd>
+        </div>
+      </dl>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2044 Neon Horizon Collective. Built for teams shipping the future.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
