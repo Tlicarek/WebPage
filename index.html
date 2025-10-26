@@ -5,99 +5,184 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta
     name="description"
-    content="Neon Horizon crafts futuristic experiences through quantum design, neural resonance systems, and immersive storytelling interfaces."
+    content="Budget Beacon helps you set a monthly plan, track expenses, and see how close you are to reaching your savings goals."
   />
-  <title>Neon Horizon</title>
+  <title>Budget Beacon</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  >
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="stars"></div>
   <header class="site-header">
-    <div class="logo">Neon Horizon</div>
+    <div class="brand">
+      <span class="brand-icon" aria-hidden="true">💡</span>
+      <span class="brand-text">Budget Beacon</span>
+    </div>
     <nav class="nav">
-      <a href="#vision">Vision</a>
-      <a href="#features">Systems</a>
-      <a href="#timeline">Timeline</a>
-      <a href="#contact">Signal</a>
+      <a href="#overview">Overview</a>
+      <a href="#plan">Plan Inputs</a>
+      <a href="#insights">Insights</a>
     </nav>
   </header>
 
   <main>
-    <section class="hero" id="vision">
-      <div class="hero-content">
-        <h1>Designing the Next Epoch</h1>
+    <section class="hero" id="overview">
+      <div class="hero-text">
+        <h1>Make your money work with intention</h1>
         <p>
-          Step into a future where human intuition and quantum computation merge.
-          Neon Horizon architects immersive ecosystems that reimagine possibility.
+          Enter your monthly income, log recurring expenses, and Budget Beacon will illuminate how much you can save each
+          month. Everything stays on this device—perfect for quick planning sessions.
         </p>
-        <div class="cta-group">
-          <button class="btn primary" data-emit="pulse">Initiate Sequence</button>
-          <button class="btn secondary">Explore the Archive</button>
+        <div class="hero-actions">
+          <button class="btn primary" id="addSampleButton" type="button">Load smart starting point</button>
+          <button class="btn ghost" id="clearDataButton" type="button">Reset my plan</button>
         </div>
       </div>
-      <div class="hero-orb" aria-hidden="true">
-        <span class="orb"></span>
-      </div>
-    </section>
-
-    <section class="cards" id="features">
-      <article class="card">
-        <h2>Quantum Lattice</h2>
-        <p>Adaptive systems co-created with predictive algorithms that evolve alongside your goals.</p>
-      </article>
-      <article class="card">
-        <h2>Neural Resonance</h2>
-        <p>Sensory feedback environments that calibrate emotional bandwidth with machine precision.</p>
-      </article>
-      <article class="card">
-        <h2>Holographic Flux</h2>
-        <p>Mixed-reality surfaces that bend light and data into luminous storytelling canvases.</p>
-      </article>
-    </section>
-
-    <section class="timeline" id="timeline">
-      <h2>Trajectory</h2>
-      <div class="timeline-grid">
-        <div class="time-node">
-          <span class="year">2026</span>
-          <p>Launch of the Aurora Field Lab to test ambient intelligence prototypes.</p>
-        </div>
-        <div class="time-node">
-          <span class="year">2028</span>
-          <p>Global deployment of adaptive neural fabrics across megacities.</p>
-        </div>
-        <div class="time-node">
-          <span class="year">2031</span>
-          <p>Interstellar communication uplink enables real-time galactic data exchange.</p>
-        </div>
+      <div class="totals" role="status" aria-live="polite">
+        <article class="total-card">
+          <h2>Monthly income</h2>
+          <p id="incomeDisplay" class="total-figure">$0.00</p>
+          <small id="incomeNote" class="total-note">Enter your take-home pay to begin.</small>
+        </article>
+        <article class="total-card">
+          <h2>Monthly expenses</h2>
+          <p id="expensesDisplay" class="total-figure">$0.00</p>
+          <small id="expenseNote" class="total-note">Add recurring bills, subscriptions, and goals.</small>
+        </article>
+        <article class="total-card">
+          <h2>Projected savings</h2>
+          <p id="savingsDisplay" class="total-figure">$0.00</p>
+          <small id="savingsNote" class="total-note">Savings appear once expenses are tracked.</small>
+        </article>
       </div>
     </section>
 
-    <section class="signal" id="contact">
-      <h2>Transmit a Signal</h2>
-      <form class="signal-form">
-        <label>
-          Designation
-          <input type="text" name="name" placeholder="Cosmonaut" required />
-        </label>
-        <label>
-          Frequency
-          <input type="email" name="email" placeholder="cosmos@orbit.net" required />
-        </label>
-        <label class="message">
-          Message
-          <textarea name="message" rows="4" placeholder="Describe your mission..."></textarea>
-        </label>
-        <button type="submit" class="btn primary" data-emit="pulse">Send Transmission</button>
-      </form>
+    <section class="planner" id="plan">
+      <div class="panel">
+        <h2>Plan inputs</h2>
+        <form id="planForm" class="plan-form">
+          <label>
+            Monthly take-home income
+            <input type="number" id="incomeInput" min="0" step="0.01" inputmode="decimal" placeholder="e.g. 4200" />
+          </label>
+          <label>
+            Savings goal (optional)
+            <input type="number" id="goalInput" min="0" step="0.01" inputmode="decimal" placeholder="e.g. 1000" />
+          </label>
+          <p class="form-help">Every change saves automatically in your browser.</p>
+        </form>
+        <div class="goal-progress" id="goalProgress" hidden>
+          <div class="goal-progress__header">
+            <span>Goal progress</span>
+            <span id="goalPercent">0%</span>
+          </div>
+          <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <span id="progressIndicator"></span>
+          </div>
+          <p id="goalTimeline" class="goal-progress__note"></p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Add recurring expense</h2>
+        <form id="expenseForm" class="expense-form">
+          <div class="form-grid">
+            <label>
+              Name
+              <input type="text" id="expenseName" placeholder="Groceries" required />
+            </label>
+            <label>
+              Category
+              <select id="expenseCategory">
+                <option value="Housing">Housing</option>
+                <option value="Utilities">Utilities</option>
+                <option value="Food">Food</option>
+                <option value="Transportation">Transportation</option>
+                <option value="Lifestyle">Lifestyle</option>
+                <option value="Health">Health</option>
+                <option value="Debt">Debt</option>
+                <option value="Savings">Savings & Investing</option>
+                <option value="Other">Other</option>
+              </select>
+            </label>
+            <label>
+              Amount
+              <input type="number" id="expenseAmount" min="0" step="0.01" inputmode="decimal" placeholder="250" required />
+            </label>
+            <label>
+              Frequency
+              <select id="expenseFrequency">
+                <option value="monthly">Monthly</option>
+                <option value="weekly">Weekly</option>
+                <option value="biweekly">Every 2 weeks</option>
+                <option value="daily">Daily</option>
+                <option value="yearly">Yearly</option>
+              </select>
+            </label>
+          </div>
+          <button type="submit" class="btn primary">Add expense</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="expenses" aria-labelledby="expenseListHeading">
+      <div class="panel">
+        <div class="panel-header">
+          <h2 id="expenseListHeading">Monthly expense list</h2>
+          <p class="panel-subtitle">All amounts are converted to monthly estimates so you can compare like-for-like.</p>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Category</th>
+                <th scope="col">Frequency</th>
+                <th scope="col">Monthly cost</th>
+                <th scope="col"><span class="sr-only">Actions</span></th>
+              </tr>
+            </thead>
+            <tbody id="expenseTableBody">
+              <tr class="empty-row">
+                <td colspan="5">No expenses yet. Add your first recurring cost to see the breakdown.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="insights" id="insights">
+      <h2>Insights and guidance</h2>
+      <div class="insight-grid">
+        <article class="insight-card">
+          <h3>Category breakdown</h3>
+          <ul id="categoryBreakdown" class="breakdown-list">
+            <li>Log expenses to populate this list.</li>
+          </ul>
+        </article>
+        <article class="insight-card">
+          <h3>Action plan</h3>
+          <div id="actionPlan" class="action-plan">
+            <p>Budget Beacon will suggest the next best step once it has your numbers.</p>
+          </div>
+        </article>
+        <article class="insight-card">
+          <h3>Healthy ratio checks</h3>
+          <ul id="ratioChecks" class="ratio-list">
+            <li>We will compare your spending to common budgeting rules of thumb.</li>
+          </ul>
+        </article>
+      </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <p>© 2044 Neon Horizon Collective. Charting luminous futures.</p>
+    <p>Built for clarity. Data stays in your browser—refresh to start over or export the summary text.</p>
   </footer>
 
   <script src="script.js"></script>
