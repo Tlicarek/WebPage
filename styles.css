@@ -18,6 +18,31 @@
   padding: 0;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .stars,
+  .hero-orb::before,
+  .hero-orb::after {
+    animation: none !important;
+  }
+
+  .btn,
+  .btn:hover,
+  .btn:focus-visible {
+    transition: none !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+}
+
 body {
   font-family: 'Rajdhani', sans-serif;
   color: var(--text);

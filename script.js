@@ -1,5 +1,6 @@
-const pulses = document.querySelectorAll('[data-emit="pulse"]');
 const root = document.documentElement;
+const pulses = document.querySelectorAll('[data-emit="pulse"]');
+const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 function createRipple(event) {
   const button = event.currentTarget;
@@ -14,17 +15,45 @@ function createRipple(event) {
   ripple.addEventListener('animationend', () => ripple.remove());
 }
 
-pulses.forEach((button) => {
-  button.addEventListener('click', createRipple);
-});
+function handleParallax(event) {
+  const x = (event.clientX / window.innerWidth - 0.5) * 12;
+  const y = (event.clientY / window.innerHeight - 0.5) * 12;
+  orb.style.transform = `translate(${x}px, ${y}px)`;
+}
+
+function bindMotionPreferences(shouldReduce) {
+  pulses.forEach((button) => {
+    button.removeEventListener('click', createRipple);
+  });
+
+  if (shouldReduce) {
+    if (orb) {
+      document.removeEventListener('pointermove', handleParallax);
+      orb.style.transform = '';
+    }
+    return;
+  }
+
+  pulses.forEach((button) => {
+    button.addEventListener('click', createRipple);
+  });
+
+  if (orb) {
+    document.addEventListener('pointermove', handleParallax);
+  }
+}
 
 // Soft parallax effect for hero orb
 const orb = document.querySelector('.hero-orb .orb');
-if (orb) {
-  document.addEventListener('pointermove', (event) => {
-    const x = (event.clientX / window.innerWidth - 0.5) * 12;
-    const y = (event.clientY / window.innerHeight - 0.5) * 12;
-    orb.style.transform = `translate(${x}px, ${y}px)`;
+bindMotionPreferences(motionQuery.matches);
+
+if (typeof motionQuery.addEventListener === 'function') {
+  motionQuery.addEventListener('change', (event) => {
+    bindMotionPreferences(event.matches);
+  });
+} else if (typeof motionQuery.addListener === 'function') {
+  motionQuery.addListener((event) => {
+    bindMotionPreferences(event.matches);
   });
 }
 
