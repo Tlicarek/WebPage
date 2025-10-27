@@ -5,101 +5,356 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta
     name="description"
-    content="Neon Horizon crafts futuristic experiences through quantum design, neural resonance systems, and immersive storytelling interfaces."
+    content="Finance Forge centralizes budgeting, debt snowball simulations, investment projections, and emergency-fund planning in one interactive workspace."
   />
-  <title>Neon Horizon</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+  <title>Finance Forge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="stars"></div>
   <header class="site-header">
-    <div class="logo">Neon Horizon</div>
-    <nav class="nav">
-      <a href="#vision">Vision</a>
-      <a href="#features">Systems</a>
-      <a href="#timeline">Timeline</a>
-      <a href="#contact">Signal</a>
+    <div class="brand">
+      <span class="brand-icon" aria-hidden="true">⛏️</span>
+      <div>
+        <p class="brand-title">Finance Forge</p>
+        <p class="brand-subtitle">Build smarter money systems</p>
+      </div>
+    </div>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="#dashboard">Dashboard</a>
+      <a href="#budgetStudio">Budget Studio</a>
+      <a href="#debtLab">Debt Lab</a>
+      <a href="#investmentLab">Wealth Lab</a>
+      <a href="#safetyNet">Safety Net</a>
     </nav>
+    <div class="quick-actions">
+      <button type="button" class="btn ghost" id="resetData">Reset workspace</button>
+      <button type="button" class="btn primary" id="loadSample">Load demo data</button>
+    </div>
   </header>
 
   <main>
-    <section class="hero" id="vision">
-      <div class="hero-content">
-        <h1>Designing the Next Epoch</h1>
-        <p>
-          Step into a future where human intuition and quantum computation merge.
-          Neon Horizon architects immersive ecosystems that reimagine possibility.
-        </p>
-        <div class="cta-group">
-          <button class="btn primary" data-emit="pulse">Initiate Sequence</button>
-          <button class="btn secondary">Explore the Archive</button>
-        </div>
+    <section id="dashboard" class="panel-grid">
+      <article class="panel highlight" aria-live="polite">
+        <header>
+          <h1>Command center</h1>
+          <p>Track cash flow, project debt freedom, and pressure-test goals from a single hub.</p>
+        </header>
+        <dl class="stat-list">
+          <div>
+            <dt>Monthly income</dt>
+            <dd id="statIncome">$0</dd>
+          </div>
+          <div>
+            <dt>Monthly expenses</dt>
+            <dd id="statExpenses">$0</dd>
+          </div>
+          <div>
+            <dt>Projected savings</dt>
+            <dd id="statSavings">$0</dd>
+          </div>
+          <div>
+            <dt>Emergency runway</dt>
+            <dd id="statRunway">0 months</dd>
+          </div>
+        </dl>
+        <p class="stat-note" id="statNote"></p>
+      </article>
+
+      <article class="panel forecast">
+        <header class="panel-header">
+          <h2>12-month cashflow projection</h2>
+          <div class="projection-settings">
+            <label>
+              Savings growth rate
+              <input type="number" id="projectionGrowth" step="0.5" value="0" aria-describedby="projectionHelp" />
+            </label>
+            <span id="projectionHelp">Expected percent change to monthly savings every quarter.</span>
+          </div>
+        </header>
+        <div class="projection-chart" id="projectionChart" role="img" aria-label="Projected monthly savings bars"></div>
+      </article>
+
+      <article class="panel" id="insightPanel">
+        <header class="panel-header">
+          <h2>Insight feed</h2>
+          <p>Scenario checks, milestones, and risk alerts update as you work.</p>
+        </header>
+        <ul id="insightFeed" class="insight-feed"></ul>
+      </article>
+    </section>
+
+    <section id="budgetStudio" class="panel-stack">
+      <header class="stack-header">
+        <h2>Budget Studio</h2>
+        <p>Layer income, recurring commitments, and target savings to tune your monthly plan.</p>
+      </header>
+
+      <div class="stack-columns">
+        <article class="panel">
+          <h3>Income &amp; targets</h3>
+          <form id="incomeForm" class="form-grid">
+            <label>
+              Monthly take-home income
+              <input type="number" id="incomeInput" min="0" step="0.01" inputmode="decimal" placeholder="4500" />
+            </label>
+            <label>
+              Savings goal (optional)
+              <input type="number" id="goalInput" min="0" step="0.01" inputmode="decimal" placeholder="900" />
+            </label>
+            <label>
+              Current emergency fund balance
+              <input type="number" id="emergencyBalanceInput" min="0" step="0.01" inputmode="decimal" placeholder="2500" />
+            </label>
+          </form>
+          <div class="goal-progress" id="goalProgress" hidden>
+            <div class="goal-progress__header">
+              <span>Goal progress</span>
+              <span id="goalPercent">0%</span>
+            </div>
+            <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <span id="progressIndicator"></span>
+            </div>
+            <p id="goalTimeline" class="goal-progress__note"></p>
+          </div>
+        </article>
+
+        <article class="panel">
+          <h3>Add recurring expense</h3>
+          <form id="expenseForm" class="form-grid">
+            <label>
+              Name
+              <input type="text" id="expenseName" required placeholder="Groceries" />
+            </label>
+            <label>
+              Category
+              <select id="expenseCategory">
+                <option value="Housing">Housing</option>
+                <option value="Utilities">Utilities</option>
+                <option value="Food">Food</option>
+                <option value="Transportation">Transportation</option>
+                <option value="Lifestyle">Lifestyle</option>
+                <option value="Health">Health</option>
+                <option value="Debt">Debt</option>
+                <option value="Savings">Savings &amp; Investing</option>
+                <option value="Other">Other</option>
+              </select>
+            </label>
+            <label>
+              Amount
+              <input type="number" id="expenseAmount" min="0" step="0.01" inputmode="decimal" placeholder="250" required />
+            </label>
+            <label>
+              Frequency
+              <select id="expenseFrequency">
+                <option value="monthly">Monthly</option>
+                <option value="weekly">Weekly</option>
+                <option value="biweekly">Every 2 weeks</option>
+                <option value="daily">Daily</option>
+                <option value="yearly">Yearly</option>
+              </select>
+            </label>
+            <button type="submit" class="btn primary">Add expense</button>
+          </form>
+        </article>
       </div>
-      <div class="hero-orb" aria-hidden="true">
-        <span class="orb"></span>
+
+      <article class="panel">
+        <header class="panel-header">
+          <h3>Monthly commitments</h3>
+          <p>All expenses are normalized to monthly amounts for clean comparisons.</p>
+        </header>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Frequency</th>
+                <th>Monthly cost</th>
+                <th><span class="sr-only">Actions</span></th>
+              </tr>
+            </thead>
+            <tbody id="expenseTableBody">
+              <tr class="empty-row"><td colspan="5">No recurring expenses yet.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <div class="stack-columns">
+        <article class="panel">
+          <h3>Category breakdown</h3>
+          <ul id="categoryBreakdown" class="category-breakdown"></ul>
+        </article>
+        <article class="panel">
+          <h3>Ratio check</h3>
+          <div id="ratioCheck" class="ratio-check"></div>
+        </article>
+        <article class="panel">
+          <h3>Cashflow notes</h3>
+          <div id="cashflowNotes" class="cashflow-notes"></div>
+        </article>
       </div>
     </section>
 
-    <section class="cards" id="features">
-      <article class="card">
-        <h2>Quantum Lattice</h2>
-        <p>Adaptive systems co-created with predictive algorithms that evolve alongside your goals.</p>
-      </article>
-      <article class="card">
-        <h2>Neural Resonance</h2>
-        <p>Sensory feedback environments that calibrate emotional bandwidth with machine precision.</p>
-      </article>
-      <article class="card">
-        <h2>Holographic Flux</h2>
-        <p>Mixed-reality surfaces that bend light and data into luminous storytelling canvases.</p>
-      </article>
-    </section>
+    <section id="debtLab" class="panel-stack">
+      <header class="stack-header">
+        <h2>Debt Lab</h2>
+        <p>Simulate a snowball strategy and spot when you'll become debt free.</p>
+      </header>
 
-    <section class="timeline" id="timeline">
-      <h2>Trajectory</h2>
-      <div class="timeline-grid">
-        <div class="time-node">
-          <span class="year">2026</span>
-          <p>Launch of the Aurora Field Lab to test ambient intelligence prototypes.</p>
-        </div>
-        <div class="time-node">
-          <span class="year">2028</span>
-          <p>Global deployment of adaptive neural fabrics across megacities.</p>
-        </div>
-        <div class="time-node">
-          <span class="year">2031</span>
-          <p>Interstellar communication uplink enables real-time galactic data exchange.</p>
-        </div>
+      <div class="stack-columns">
+        <article class="panel">
+          <h3>Add liability</h3>
+          <form id="debtForm" class="form-grid">
+            <label>
+              Name
+              <input type="text" id="debtName" placeholder="Auto loan" required />
+            </label>
+            <label>
+              Balance
+              <input type="number" id="debtBalance" min="0" step="0.01" required />
+            </label>
+            <label>
+              Interest rate (APR)
+              <input type="number" id="debtRate" min="0" step="0.01" required />
+            </label>
+            <label>
+              Minimum payment
+              <input type="number" id="debtPayment" min="0" step="0.01" required />
+            </label>
+            <button type="submit" class="btn primary">Add debt</button>
+          </form>
+        </article>
+        <article class="panel">
+          <h3>Strategy controls</h3>
+          <label class="full">
+            Extra monthly payment toward snowball
+            <input type="number" id="extraPayment" min="0" step="0.01" value="0" />
+          </label>
+          <p class="panel-subtitle">Debts are prioritized by smallest balance to maximize quick wins.</p>
+          <div id="debtSummary" class="debt-summary"></div>
+        </article>
       </div>
+
+      <article class="panel">
+        <header class="panel-header">
+          <h3>Snowball timeline</h3>
+          <p>Balances roll over as each debt clears. Interest accrues monthly.</p>
+        </header>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Debt</th>
+                <th>Balance</th>
+                <th>Rate</th>
+                <th>Minimum</th>
+                <th>Months to payoff</th>
+                <th>Interest paid</th>
+                <th><span class="sr-only">Actions</span></th>
+              </tr>
+            </thead>
+            <tbody id="debtTableBody">
+              <tr class="empty-row"><td colspan="7">Add your liabilities to simulate the payoff path.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
     </section>
 
-    <section class="signal" id="contact">
-      <h2>Transmit a Signal</h2>
-      <form class="signal-form">
-        <label>
-          Designation
-          <input type="text" name="name" placeholder="Cosmonaut" required />
-        </label>
-        <label>
-          Frequency
-          <input type="email" name="email" placeholder="cosmos@orbit.net" required />
-        </label>
-        <label class="message">
-          Message
-          <textarea name="message" rows="4" placeholder="Describe your mission..."></textarea>
-        </label>
-        <button type="submit" class="btn primary" data-emit="pulse">Send Transmission</button>
-      </form>
+    <section id="investmentLab" class="panel-stack">
+      <header class="stack-header">
+        <h2>Wealth Lab</h2>
+        <p>Project long-term growth with compound returns.</p>
+      </header>
+      <div class="stack-columns">
+        <article class="panel">
+          <h3>Projection inputs</h3>
+          <form id="investmentForm" class="form-grid">
+            <label>
+              Starting balance
+              <input type="number" id="investStarting" min="0" step="0.01" value="1000" />
+            </label>
+            <label>
+              Monthly contribution
+              <input type="number" id="investContribution" min="0" step="0.01" value="300" />
+            </label>
+            <label>
+              Expected annual return (%)
+              <input type="number" id="investRate" min="0" step="0.1" value="6" />
+            </label>
+            <label>
+              Years to grow
+              <input type="number" id="investYears" min="1" max="50" value="10" />
+            </label>
+            <button type="submit" class="btn primary">Run projection</button>
+          </form>
+        </article>
+        <article class="panel">
+          <h3>Summary</h3>
+          <div id="investmentSummary" class="investment-summary"></div>
+        </article>
+      </div>
+      <article class="panel">
+        <header class="panel-header">
+          <h3>Year-by-year outlook</h3>
+          <p>Includes contributions and compound growth each year.</p>
+        </header>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Year</th>
+                <th>Total contributed</th>
+                <th>Growth earned</th>
+                <th>End balance</th>
+              </tr>
+            </thead>
+            <tbody id="investmentTableBody">
+              <tr class="empty-row"><td colspan="4">Run a projection to populate results.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <section id="safetyNet" class="panel-stack">
+      <header class="stack-header">
+        <h2>Safety Net Planner</h2>
+        <p>Validate how resilient your savings are against essential spending.</p>
+      </header>
+      <div class="stack-columns">
+        <article class="panel">
+          <h3>Emergency runway</h3>
+          <label class="full">
+            Desired months of coverage
+            <input type="range" id="emergencyMonths" min="1" max="12" value="3" />
+          </label>
+          <p class="range-value"><span id="emergencyMonthValue">3</span> months</p>
+          <div id="emergencySummary" class="emergency-summary"></div>
+        </article>
+        <article class="panel">
+          <h3>Scenario stress test</h3>
+          <div id="scenarioSummary" class="scenario-summary"></div>
+        </article>
+      </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <p>© 2044 Neon Horizon Collective. Charting luminous futures.</p>
+    <p>
+      Finance Forge runs entirely in your browser. No accounts, no syncing—just space to iterate on your strategy and
+      copy the plan wherever it needs to go.
+    </p>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>
