@@ -1,8 +1,7 @@
 (() => {
   const STORAGE_KEYS = {
     items: 'wishfully:items',
-    settings: 'wishfully:settings',
-    auth: 'wishfully:auth'
+    settings: 'wishfully:settings'
   };
 
   const DEFAULT_SETTINGS = {
@@ -61,11 +60,6 @@
   ]);
 
   const selectors = {
-    loginScreen: document.getElementById('loginScreen'),
-    loginForm: document.getElementById('loginForm'),
-    loginPassword: document.getElementById('loginPassword'),
-    loginError: document.getElementById('loginError'),
-    app: document.getElementById('app'),
     wishForm: document.getElementById('wishForm'),
     wishName: document.getElementById('wishName'),
     wishPriority: document.getElementById('wishPriority'),
@@ -77,12 +71,10 @@
     emptyState: document.getElementById('emptyState'),
     sortOrder: document.getElementById('sortOrder'),
     groupToggle: document.getElementById('groupToggle'),
-    clearButton: document.getElementById('clearButton'),
-    logoutButton: document.getElementById('logoutButton')
+    clearButton: document.getElementById('clearButton')
   };
 
   const lookupCache = new Map();
-  const SECRET_PASSWORD = resolveSecretPassword();
   let previewRequestId = 0;
 
   const state = {
@@ -90,57 +82,13 @@
     settings: loadSettings()
   };
 
-  if (isAuthenticated()) {
-    enterApp();
-  } else {
-    showLogin();
-  }
-
   attachListeners();
   render();
-
-  function resolveSecretPassword() {
-    const secret = typeof window.__WISHLIST_PASSWORD__ === 'string' ? window.__WISHLIST_PASSWORD__.trim() : '';
-    return secret;
-  }
-
-  function showLogin() {
-    selectors.loginScreen.hidden = false;
-    selectors.app.hidden = true;
-    window.setTimeout(() => {
-      selectors.loginPassword.focus({ preventScroll: true });
-    }, 200);
-  }
-
-  function enterApp() {
-    selectors.loginScreen.hidden = true;
-    selectors.app.hidden = false;
+  if (selectors.wishName) {
     selectors.wishName.focus({ preventScroll: true });
   }
 
-  function isAuthenticated() {
-    return localStorage.getItem(STORAGE_KEYS.auth) === 'true';
-  }
-
-  function authenticate() {
-    localStorage.setItem(STORAGE_KEYS.auth, 'true');
-  }
-
-  function signOut() {
-    localStorage.removeItem(STORAGE_KEYS.auth);
-  }
-
   function attachListeners() {
-    selectors.loginForm.addEventListener('submit', handleLogin);
-    selectors.loginPassword.addEventListener('input', () => {
-      selectors.loginError.hidden = true;
-    });
-    selectors.logoutButton.addEventListener('click', () => {
-      signOut();
-      showLogin();
-      selectors.loginPassword.value = '';
-    });
-
     selectors.wishForm.addEventListener('submit', handleAddWish);
     selectors.sortOrder.addEventListener('change', () => {
       state.settings.sort = selectors.sortOrder.value;
@@ -167,43 +115,7 @@
         selectors.groupToggle.checked = state.settings.groupByPriority;
         renderWishlist();
       }
-      if (event.key === STORAGE_KEYS.auth && event.newValue !== 'true') {
-        showLogin();
-      }
     });
-  }
-
-  function handleLogin(event) {
-    event.preventDefault();
-    const entered = selectors.loginPassword.value.trim();
-
-    if (!SECRET_PASSWORD) {
-      authenticate();
-      selectors.loginPassword.value = '';
-      selectors.loginError.hidden = true;
-      enterApp();
-      render();
-      return;
-    }
-
-    if (entered !== SECRET_PASSWORD) {
-      selectors.loginError.hidden = false;
-      selectors.loginPassword.focus();
-      return;
-    }
-
-    if (!SECRET_PASSWORD && !entered) {
-      selectors.loginError.textContent = 'This deployment has no password configured yet.';
-      selectors.loginError.hidden = false;
-      selectors.loginPassword.focus();
-      return;
-    }
-
-    authenticate();
-    selectors.loginPassword.value = '';
-    selectors.loginError.hidden = true;
-    enterApp();
-    render();
   }
 
   function handleAddWish(event) {

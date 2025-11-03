@@ -94,55 +94,6 @@ body {
   background: rgba(248, 113, 113, 0.25);
 }
 
-.login-screen {
-  position: fixed;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  padding: 2rem;
-  background: var(--bg);
-  z-index: 10;
-}
-
-.login-card {
-  width: min(420px, 100%);
-  background: var(--surface-strong);
-  border-radius: var(--radius-lg);
-  padding: 2.75rem 2.5rem;
-  box-shadow: var(--shadow);
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-}
-
-.login-header {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  text-align: center;
-}
-
-.login-icon {
-  font-size: 2.75rem;
-}
-
-.login-subtitle {
-  margin: 0;
-  color: var(--text-muted);
-}
-
-.login-hint {
-  margin: 0;
-  font-size: 0.85rem;
-  color: var(--text-muted);
-}
-
-.login-error {
-  margin: 0;
-  color: var(--danger);
-  font-weight: 600;
-}
-
 .app {
   min-height: 100vh;
   display: flex;
@@ -212,8 +163,8 @@ body {
   padding: 2rem;
   box-shadow: var(--shadow);
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  align-items: center;
+  gap: 1rem;
 }
 
 .panel-header h2 {

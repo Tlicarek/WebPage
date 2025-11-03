@@ -17,24 +17,7 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="login-screen" id="loginScreen" aria-labelledby="loginTitle">
-    <form class="login-card" id="loginForm">
-      <div class="login-header">
-        <span class="login-icon" aria-hidden="true">🎀</span>
-        <h1 id="loginTitle">Welcome to Wishfully</h1>
-        <p class="login-subtitle">Unlock your private wishlist to continue.</p>
-      </div>
-      <label class="input-group">
-        <span>Password</span>
-        <input id="loginPassword" name="password" type="password" required autocomplete="current-password" />
-      </label>
-      <button type="submit" class="btn primary">Unlock my wishlist</button>
-      <p class="login-error" id="loginError" role="alert" hidden>That password didn't match. Try again.</p>
-      <p class="login-hint">Password is stored securely as a GitHub secret during deployment.</p>
-    </form>
-  </div>
-
-  <div class="app" id="app" hidden>
+  <div class="app" id="app">
     <header class="app-header">
       <div class="brand">
         <span class="brand-icon" aria-hidden="true">💫</span>
@@ -45,7 +28,6 @@
       </div>
       <div class="header-actions">
         <span class="item-count" id="itemCount" aria-live="polite">No wishes yet</span>
-        <button type="button" class="btn ghost" id="logoutButton">Log out</button>
       </div>
     </header>
 
@@ -127,8 +109,7 @@
 
     <footer class="app-footer">
       <p>
-        Wishlist data lives only in your browser and can be exported anytime. Password management is handled entirely by
-        GitHub secrets in deployment.
+        Wishlist data lives only in your browser and can be exported anytime.
       </p>
     </footer>
   </div>
