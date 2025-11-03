@@ -5,355 +5,114 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta
     name="description"
-    content="Finance Forge centralizes budgeting, debt snowball simulations, investment projections, and emergency-fund planning in one interactive workspace."
+    content="Pastel wishlist tracker that keeps your dream purchases organized, prioritized, and linked to trusted stores."
   />
-  <title>Finance Forge</title>
+  <title>Pastel Wishlist Tracker</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Sans:wght@400;500;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Space+Grotesk:wght@500;600&display=swap"
     rel="stylesheet"
   />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header class="site-header">
-    <div class="brand">
-      <span class="brand-icon" aria-hidden="true">⛏️</span>
-      <div>
-        <p class="brand-title">Finance Forge</p>
-        <p class="brand-subtitle">Build smarter money systems</p>
+  <div class="app" id="app">
+    <header class="app-header">
+      <div class="brand">
+        <span class="brand-icon" aria-hidden="true">💫</span>
+        <div>
+          <p class="brand-title">Wishfully</p>
+          <p class="brand-tagline">Curate, prioritize, and shop smarter</p>
+        </div>
       </div>
-    </div>
-    <nav class="site-nav" aria-label="Primary">
-      <a href="#dashboard">Dashboard</a>
-      <a href="#budgetStudio">Budget Studio</a>
-      <a href="#debtLab">Debt Lab</a>
-      <a href="#investmentLab">Wealth Lab</a>
-      <a href="#safetyNet">Safety Net</a>
-    </nav>
-    <div class="quick-actions">
-      <button type="button" class="btn ghost" id="resetData">Reset workspace</button>
-      <button type="button" class="btn primary" id="loadSample">Load demo data</button>
-    </div>
-  </header>
+      <div class="header-actions">
+        <span class="item-count" id="itemCount" aria-live="polite">No wishes yet</span>
+      </div>
+    </header>
 
-  <main>
-    <section id="dashboard" class="panel-grid">
-      <article class="panel highlight" aria-live="polite">
-        <header>
-          <h1>Command center</h1>
-          <p>Track cash flow, project debt freedom, and pressure-test goals from a single hub.</p>
-        </header>
-        <dl class="stat-list">
+    <main class="layout">
+      <section class="panel add-panel" aria-labelledby="addWishTitle">
+        <div class="panel-header">
+          <h2 id="addWishTitle">Add something you’re dreaming about</h2>
+          <p class="panel-subtitle">Give it a priority so Wishfully can keep everything in order.</p>
+        </div>
+        <form class="form-grid" id="wishForm">
+          <label class="input-group">
+            <span>What are you adding?</span>
+            <input
+              type="text"
+              id="wishName"
+              name="wish"
+              required
+              placeholder="Nintendo Switch OLED, espresso machine, hiking boots…"
+              autocomplete="off"
+            />
+          </label>
+          <label class="input-group">
+            <span>Priority</span>
+            <select id="wishPriority" name="priority">
+              <option value="5">5 – Can’t stop thinking about it</option>
+              <option value="4">4 – High priority</option>
+              <option value="3" selected>3 – Medium priority</option>
+              <option value="2">2 – Nice to have</option>
+              <option value="1">1 – Someday</option>
+            </select>
+          </label>
+          <label class="input-group full">
+            <span>Notes (optional)</span>
+            <textarea
+              id="wishNotes"
+              name="notes"
+              rows="3"
+              placeholder="Color, seller, bundle ideas, budget, or anything else you want to remember."
+            ></textarea>
+          </label>
+          <button type="submit" class="btn primary full">Add to wishlist</button>
+        </form>
+        <aside class="ai-preview" aria-live="polite">
+          <h3>AI link finder</h3>
+          <p id="aiStatus">Start typing an item name to let the AI scout the best link.</p>
+          <div id="aiResults" class="ai-results" hidden></div>
+        </aside>
+      </section>
+
+      <section class="panel list-panel" aria-labelledby="wishlistTitle">
+        <div class="panel-header list-header">
           <div>
-            <dt>Monthly income</dt>
-            <dd id="statIncome">$0</dd>
+            <h2 id="wishlistTitle">Wishlist overview</h2>
+            <p class="panel-subtitle">Sorted the way you like it, always ready to shop.</p>
           </div>
-          <div>
-            <dt>Monthly expenses</dt>
-            <dd id="statExpenses">$0</dd>
-          </div>
-          <div>
-            <dt>Projected savings</dt>
-            <dd id="statSavings">$0</dd>
-          </div>
-          <div>
-            <dt>Emergency runway</dt>
-            <dd id="statRunway">0 months</dd>
-          </div>
-        </dl>
-        <p class="stat-note" id="statNote"></p>
-      </article>
-
-      <article class="panel forecast">
-        <header class="panel-header">
-          <h2>12-month cashflow projection</h2>
-          <div class="projection-settings">
-            <label>
-              Savings growth rate
-              <input type="number" id="projectionGrowth" step="0.5" value="0" aria-describedby="projectionHelp" />
-            </label>
-            <span id="projectionHelp">Expected percent change to monthly savings every quarter.</span>
-          </div>
-        </header>
-        <div class="projection-chart" id="projectionChart" role="img" aria-label="Projected monthly savings bars"></div>
-      </article>
-
-      <article class="panel" id="insightPanel">
-        <header class="panel-header">
-          <h2>Insight feed</h2>
-          <p>Scenario checks, milestones, and risk alerts update as you work.</p>
-        </header>
-        <ul id="insightFeed" class="insight-feed"></ul>
-      </article>
-    </section>
-
-    <section id="budgetStudio" class="panel-stack">
-      <header class="stack-header">
-        <h2>Budget Studio</h2>
-        <p>Layer income, recurring commitments, and target savings to tune your monthly plan.</p>
-      </header>
-
-      <div class="stack-columns">
-        <article class="panel">
-          <h3>Income &amp; targets</h3>
-          <form id="incomeForm" class="form-grid">
-            <label>
-              Monthly take-home income
-              <input type="number" id="incomeInput" min="0" step="0.01" inputmode="decimal" placeholder="4500" />
-            </label>
-            <label>
-              Savings goal (optional)
-              <input type="number" id="goalInput" min="0" step="0.01" inputmode="decimal" placeholder="900" />
-            </label>
-            <label>
-              Current emergency fund balance
-              <input type="number" id="emergencyBalanceInput" min="0" step="0.01" inputmode="decimal" placeholder="2500" />
-            </label>
-          </form>
-          <div class="goal-progress" id="goalProgress" hidden>
-            <div class="goal-progress__header">
-              <span>Goal progress</span>
-              <span id="goalPercent">0%</span>
-            </div>
-            <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-              <span id="progressIndicator"></span>
-            </div>
-            <p id="goalTimeline" class="goal-progress__note"></p>
-          </div>
-        </article>
-
-        <article class="panel">
-          <h3>Add recurring expense</h3>
-          <form id="expenseForm" class="form-grid">
-            <label>
-              Name
-              <input type="text" id="expenseName" required placeholder="Groceries" />
-            </label>
-            <label>
-              Category
-              <select id="expenseCategory">
-                <option value="Housing">Housing</option>
-                <option value="Utilities">Utilities</option>
-                <option value="Food">Food</option>
-                <option value="Transportation">Transportation</option>
-                <option value="Lifestyle">Lifestyle</option>
-                <option value="Health">Health</option>
-                <option value="Debt">Debt</option>
-                <option value="Savings">Savings &amp; Investing</option>
-                <option value="Other">Other</option>
+          <div class="list-controls">
+            <label class="input-group compact">
+              <span>Sort by</span>
+              <select id="sortOrder">
+                <option value="priority">Priority (high first)</option>
+                <option value="newest">Recently added</option>
+                <option value="oldest">Oldest first</option>
+                <option value="az">Name A → Z</option>
               </select>
             </label>
-            <label>
-              Amount
-              <input type="number" id="expenseAmount" min="0" step="0.01" inputmode="decimal" placeholder="250" required />
+            <label class="toggle">
+              <input type="checkbox" id="groupToggle" />
+              <span>Group by priority</span>
             </label>
-            <label>
-              Frequency
-              <select id="expenseFrequency">
-                <option value="monthly">Monthly</option>
-                <option value="weekly">Weekly</option>
-                <option value="biweekly">Every 2 weeks</option>
-                <option value="daily">Daily</option>
-                <option value="yearly">Yearly</option>
-              </select>
-            </label>
-            <button type="submit" class="btn primary">Add expense</button>
-          </form>
-        </article>
-      </div>
-
-      <article class="panel">
-        <header class="panel-header">
-          <h3>Monthly commitments</h3>
-          <p>All expenses are normalized to monthly amounts for clean comparisons.</p>
-        </header>
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Frequency</th>
-                <th>Monthly cost</th>
-                <th><span class="sr-only">Actions</span></th>
-              </tr>
-            </thead>
-            <tbody id="expenseTableBody">
-              <tr class="empty-row"><td colspan="5">No recurring expenses yet.</td></tr>
-            </tbody>
-          </table>
+            <button type="button" class="btn ghost" id="clearButton">Clear all</button>
+          </div>
         </div>
-      </article>
-
-      <div class="stack-columns">
-        <article class="panel">
-          <h3>Category breakdown</h3>
-          <ul id="categoryBreakdown" class="category-breakdown"></ul>
-        </article>
-        <article class="panel">
-          <h3>Ratio check</h3>
-          <div id="ratioCheck" class="ratio-check"></div>
-        </article>
-        <article class="panel">
-          <h3>Cashflow notes</h3>
-          <div id="cashflowNotes" class="cashflow-notes"></div>
-        </article>
-      </div>
-    </section>
-
-    <section id="debtLab" class="panel-stack">
-      <header class="stack-header">
-        <h2>Debt Lab</h2>
-        <p>Simulate a snowball strategy and spot when you'll become debt free.</p>
-      </header>
-
-      <div class="stack-columns">
-        <article class="panel">
-          <h3>Add liability</h3>
-          <form id="debtForm" class="form-grid">
-            <label>
-              Name
-              <input type="text" id="debtName" placeholder="Auto loan" required />
-            </label>
-            <label>
-              Balance
-              <input type="number" id="debtBalance" min="0" step="0.01" required />
-            </label>
-            <label>
-              Interest rate (APR)
-              <input type="number" id="debtRate" min="0" step="0.01" required />
-            </label>
-            <label>
-              Minimum payment
-              <input type="number" id="debtPayment" min="0" step="0.01" required />
-            </label>
-            <button type="submit" class="btn primary">Add debt</button>
-          </form>
-        </article>
-        <article class="panel">
-          <h3>Strategy controls</h3>
-          <label class="full">
-            Extra monthly payment toward snowball
-            <input type="number" id="extraPayment" min="0" step="0.01" value="0" />
-          </label>
-          <p class="panel-subtitle">Debts are prioritized by smallest balance to maximize quick wins.</p>
-          <div id="debtSummary" class="debt-summary"></div>
-        </article>
-      </div>
-
-      <article class="panel">
-        <header class="panel-header">
-          <h3>Snowball timeline</h3>
-          <p>Balances roll over as each debt clears. Interest accrues monthly.</p>
-        </header>
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Debt</th>
-                <th>Balance</th>
-                <th>Rate</th>
-                <th>Minimum</th>
-                <th>Months to payoff</th>
-                <th>Interest paid</th>
-                <th><span class="sr-only">Actions</span></th>
-              </tr>
-            </thead>
-            <tbody id="debtTableBody">
-              <tr class="empty-row"><td colspan="7">Add your liabilities to simulate the payoff path.</td></tr>
-            </tbody>
-          </table>
+        <div id="emptyState" class="empty-state" hidden>
+          <p>No wishes yet. Add something above to begin crafting your wishlist.</p>
         </div>
-      </article>
-    </section>
+        <div id="wishlistContainer" class="wishlist" role="list"></div>
+      </section>
+    </main>
 
-    <section id="investmentLab" class="panel-stack">
-      <header class="stack-header">
-        <h2>Wealth Lab</h2>
-        <p>Project long-term growth with compound returns.</p>
-      </header>
-      <div class="stack-columns">
-        <article class="panel">
-          <h3>Projection inputs</h3>
-          <form id="investmentForm" class="form-grid">
-            <label>
-              Starting balance
-              <input type="number" id="investStarting" min="0" step="0.01" value="1000" />
-            </label>
-            <label>
-              Monthly contribution
-              <input type="number" id="investContribution" min="0" step="0.01" value="300" />
-            </label>
-            <label>
-              Expected annual return (%)
-              <input type="number" id="investRate" min="0" step="0.1" value="6" />
-            </label>
-            <label>
-              Years to grow
-              <input type="number" id="investYears" min="1" max="50" value="10" />
-            </label>
-            <button type="submit" class="btn primary">Run projection</button>
-          </form>
-        </article>
-        <article class="panel">
-          <h3>Summary</h3>
-          <div id="investmentSummary" class="investment-summary"></div>
-        </article>
-      </div>
-      <article class="panel">
-        <header class="panel-header">
-          <h3>Year-by-year outlook</h3>
-          <p>Includes contributions and compound growth each year.</p>
-        </header>
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Year</th>
-                <th>Total contributed</th>
-                <th>Growth earned</th>
-                <th>End balance</th>
-              </tr>
-            </thead>
-            <tbody id="investmentTableBody">
-              <tr class="empty-row"><td colspan="4">Run a projection to populate results.</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </article>
-    </section>
-
-    <section id="safetyNet" class="panel-stack">
-      <header class="stack-header">
-        <h2>Safety Net Planner</h2>
-        <p>Validate how resilient your savings are against essential spending.</p>
-      </header>
-      <div class="stack-columns">
-        <article class="panel">
-          <h3>Emergency runway</h3>
-          <label class="full">
-            Desired months of coverage
-            <input type="range" id="emergencyMonths" min="1" max="12" value="3" />
-          </label>
-          <p class="range-value"><span id="emergencyMonthValue">3</span> months</p>
-          <div id="emergencySummary" class="emergency-summary"></div>
-        </article>
-        <article class="panel">
-          <h3>Scenario stress test</h3>
-          <div id="scenarioSummary" class="scenario-summary"></div>
-        </article>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <p>
-      Finance Forge runs entirely in your browser. No accounts, no syncing—just space to iterate on your strategy and
-      copy the plan wherever it needs to go.
-    </p>
-  </footer>
+    <footer class="app-footer">
+      <p>
+        Wishlist data lives only in your browser and can be exported anytime.
+      </p>
+    </footer>
+  </div>
 
   <script src="script.js" defer></script>
 </body>
